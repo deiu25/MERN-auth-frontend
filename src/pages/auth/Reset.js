@@ -5,7 +5,7 @@ import { Loader } from "../../components/loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET, resetPassword } from "../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
-//import "./style.css";
+import './AuthStyle.css'
 
 const initialState = {
   password: "",

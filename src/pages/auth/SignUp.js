@@ -4,8 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { validateEmail } from "../../redux/features/auth/authService";
 import { useDispatch, useSelector } from "react-redux";
-import { register, RESET, sendVerificationEmail } from "../../redux/features/auth/authSlice";
+import {
+  register,
+  RESET,
+  sendVerificationEmail,
+} from "../../redux/features/auth/authSlice";
 import { Loader } from "../../components/loader/Loader";
+import './AuthStyle.css'
 
 const initialState = {
   firstname: "",
@@ -22,7 +27,9 @@ export const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoading, isLoggedIn, isSuccess } = useSelector((state) => state.auth);
+  const { isLoading, isLoggedIn, isSuccess } = useSelector(
+    (state) => state.auth
+  );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,11 +56,11 @@ export const SignUp = () => {
       lastname,
       email,
       password,
-  };
-  //console.log(userData);
+    };
+    //console.log(userData);
 
-  await dispatch(register(userData));
-  await dispatch(sendVerificationEmail());
+    await dispatch(register(userData));
+    await dispatch(sendVerificationEmail());
   };
 
   useEffect(() => {
@@ -101,12 +108,11 @@ export const SignUp = () => {
     }
   }, [password]);
 
-
   return (
     <div className="card-back">
       <div className="center-wrap">
         {isLoading && <Loader />}
-        <div className="section text-center">
+        <div className="section centered-text">
           <svg
             fill="none"
             stroke="currentColor"
@@ -153,21 +159,22 @@ export const SignUp = () => {
                 <i className="input-icon uil uil-user"></i>
               </div>
             </div>
-            <div className="form-group mt-2">
+            <div className="form-group">
               <input
                 type="email"
                 name="email"
                 value={email}
                 onChange={handleInputChange}
-                className="form-style"
+                className="form-style margin-top"
                 placeholder="Email"
                 id="logemail"
                 autoComplete="off"
               />
               <i className="input-icon uil uil-at"></i>
             </div>
+            <div className="form-group">
             <PasswordInput
-              className="form-style"
+              className="form-style margin-top"
               id="registerPassword"
               autoComplete="off"
               placeholder="Password"
@@ -175,13 +182,16 @@ export const SignUp = () => {
               required
               value={password}
               onChange={handleInputChange}
-              OnPaste={(e) => {e.preventDefault();
-              toast.error("You can't paste here");
-            return false;
-            }}
+              OnPaste={(e) => {
+                e.preventDefault();
+                toast.error("You can't paste here");
+                return false;
+              }}
             />
+            </div>
+            <div className="form-group">
             <PasswordInput
-              className="form-style"
+              className="form-style margin-top"
               id="confirmPassword"
               autoComplete="off"
               placeholder="Repeat Password"
@@ -189,33 +199,34 @@ export const SignUp = () => {
               required
               value={confirmPassword}
               onChange={handleInputChange}
-              OnPaste={(e) => {e.preventDefault();
+              OnPaste={(e) => {
+                e.preventDefault();
                 toast.error("You can't paste here");
-              return false;
+                return false;
               }}
             />
-          
-          <div className="password-info">
-            <div className="password-info-item">
-              {switchIcon(passLength)}
-              At least 6 characters
             </div>
-            <div className="password-info-item">
-              {switchIcon(uCase)}
-              At least 1 uppercase letter
+            <div className="password-info">
+              <div className="password-info-item">
+                {switchIcon(passLength)}
+                At least 6 characters
+              </div>
+              <div className="password-info-item">
+                {switchIcon(uCase)}
+                At least 1 uppercase letter
+              </div>
+              <div className="password-info-item">
+                {switchIcon(num)}
+                At least 1 number
+              </div>
+              <div className="password-info-item">
+                {switchIcon(sChar)}
+                At least 1 special character
+              </div>
             </div>
-            <div className="password-info-item">
-              {switchIcon(num)}
-              At least 1 number
-            </div>
-            <div className="password-info-item">
-              {switchIcon(sChar)}
-              At least 1 special character
-            </div>
-          </div>
-          <button type="submit" className="btn mt-4">
-            Submit
-          </button>
+            <button type="submit" className="btn mt-4">
+              Submit
+            </button>
           </form>
           <p className="mb-0 mt-4 text-center">
             <Link to="/forgot">Forgot your password?</Link>

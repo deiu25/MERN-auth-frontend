@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { validateEmail } from "../../redux/features/auth/authService";
 import {login, loginWithGoogle, RESET, sendLoginCode } from "../../redux/features/auth/authSlice";
 import { GoogleLogin } from "@react-oauth/google";
+import './AuthStyle.css'
 
 const initialState = {
   email: "",
@@ -61,7 +62,6 @@ export const Login = () => {
   }, [isSuccess, isLoggedIn, isError, twoFactor, navigate, dispatch, email]);
 
   const googleLogin = async (credentialResponse) => {
-    console.log(credentialResponse);
     await dispatch(loginWithGoogle({userToken: credentialResponse.credential }))
   };
 
@@ -91,7 +91,6 @@ export const Login = () => {
           <GoogleLogin
               onSuccess={googleLogin}
               onError={() => {
-                console.log("Login Failed");
                 toast.error("Login Failed");
               }}
             />
@@ -114,7 +113,7 @@ export const Login = () => {
               <i className="input-icon uil uil-at"></i>
             </div>
             <PasswordInput
-              className="form-style"
+              className="form-style margin-top"
               id="loginPassword"
               autoComplete="off"
               placeholder="Your Password"
