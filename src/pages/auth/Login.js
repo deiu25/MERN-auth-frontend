@@ -5,9 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../components/loader/Loader";
 import { toast } from "react-toastify";
 import { validateEmail } from "../../redux/features/auth/authService";
-import {login, loginWithGoogle, RESET, sendLoginCode } from "../../redux/features/auth/authSlice";
+import {
+  login,
+  loginWithGoogle,
+  RESET,
+  sendLoginCode,
+} from "../../redux/features/auth/authSlice";
 import { GoogleLogin } from "@react-oauth/google";
-import './AuthStyle.css'
+import "./AuthStyle.css";
 
 const initialState = {
   email: "",
@@ -17,6 +22,18 @@ const initialState = {
 export const Login = () => {
   const [formData, setFormData] = useState(initialState);
   const { email, password } = formData;
+
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
+  const handleResize = () => {
+    setWindowSize(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,7 +71,7 @@ export const Login = () => {
     }
 
     if (isError && twoFactor) {
-      dispatch(sendLoginCode(email))
+      dispatch(sendLoginCode(email));
       navigate(`/loginWithCode/${email}`);
     }
 
@@ -62,7 +79,9 @@ export const Login = () => {
   }, [isSuccess, isLoggedIn, isError, twoFactor, navigate, dispatch, email]);
 
   const googleLogin = async (credentialResponse) => {
-    await dispatch(loginWithGoogle({userToken: credentialResponse.credential }))
+    await dispatch(
+      loginWithGoogle({ userToken: credentialResponse.credential })
+    );
   };
 
   return (
@@ -88,11 +107,13 @@ export const Login = () => {
           </svg>
           <h4 className="authTitle">Log In</h4>
           <div className="flex-center">
-          <GoogleLogin
+            <GoogleLogin
               onSuccess={googleLogin}
               onError={() => {
                 toast.error("Login Failed");
               }}
+              type={windowSize < 360 ? "icon" : "standard"}
+              shape={windowSize < 360 ? "circle" : "rect"}
             />
           </div>
           <br />
@@ -121,10 +142,7 @@ export const Login = () => {
               value={password}
               onChange={handleInputChange}
             />
-            <button
-              type="submit"
-              className="btn fullWidth margin-top-3rem"
-            >
+            <button type="submit" className="btn fullWidth margin-top-3rem">
               Login
             </button>
           </form>
