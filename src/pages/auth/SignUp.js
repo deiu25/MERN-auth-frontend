@@ -41,6 +41,12 @@ export const SignUp = () => {
     if (!firstname || !lastname || !email || !password || !confirmPassword) {
       return toast.error("Please fill in all fields");
     }
+    if (firstname.length < 3 || !/^[a-zA-Z0-9]+$/.test(firstname)) {
+      return toast.error("First name must be at least 3 characters long and contains only letters and numbers");
+    }
+    if (lastname.length < 3 || !/^[a-zA-Z0-9]+$/.test(lastname)) {
+      return toast.error("Last name must be at least 3 characters long and contains only letters and numbers");
+    }
     if (password.length < 6) {
       return toast.error("Password must be at least 6 characters");
     }
@@ -50,14 +56,14 @@ export const SignUp = () => {
     if (!validateEmail(email)) {
       return toast.error("Invalid email");
     }
-
+  
     const userData = {
       firstname,
       lastname,
       email,
       password,
     };
-
+  
     await dispatch(register(userData));
     await dispatch(sendVerificationEmail());
   };
