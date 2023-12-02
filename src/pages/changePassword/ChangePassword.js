@@ -20,7 +20,6 @@ const initialState = {
 };
 
 export const ChangePassword = () => {
-  //useRedirectLoggedOutUser("/auth");
 
   const [formData, setFormData] = useState(initialState);
   const { oldPassword, newPassword, confirmPassword } = formData;
@@ -141,7 +140,7 @@ export const ChangePassword = () => {
             </div>
             <div className="custom-card-body">
               <form onSubmit={updatePassword}>
-                <p>
+                <>
                   <PasswordInput
                     className="form-style margin-bottom"
                     id="oldPassword"
@@ -152,8 +151,8 @@ export const ChangePassword = () => {
                     value={oldPassword}
                     onChange={handleInputChange}
                   />
-                </p>
-                <p>
+                </>
+                <>
                   <PasswordInput
                     className="form-style margin-bottom"
                     id="newPassword"
@@ -164,8 +163,8 @@ export const ChangePassword = () => {
                     value={newPassword}
                     onChange={handleInputChange}
                   />
-                </p>
-                <p>
+                </>
+                <>
                   <PasswordInput
                     className="form-style"
                     id="confirmPassword"
@@ -176,7 +175,7 @@ export const ChangePassword = () => {
                     value={confirmPassword}
                     onChange={handleInputChange}
                   />
-                </p>
+                </>
                 <div className="centered-text">
                   <div className="password-info-item">
                     {switchIcon(passLength)}
